@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-veridion",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "n8n community node for Veridion company enrich, company search, and supplier search",
   "keywords": [
     "n8n-community-node-package",
