@@ -1,0 +1,55 @@
+{
+  "name": "n8n-nodes-veridion",
+  "version": "0.1.0",
+  "description": "n8n community node for Veridion company enrich, company search, and supplier search",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "veridion",
+    "company-data",
+    "enrichment",
+    "b2b"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/veridion/n8n-nodes-veridion",
+  "author": {
+    "name": "Veridion",
+    "email": "support@veridion.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/veridion/n8n-nodes-veridion.git"
+  },
+  "main": "index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json && node scripts/copy-icons.js",
+    "dev": "tsc -p tsconfig.build.json --watch",
+    "lint": "eslint",
+    "lintfix": "eslint --fix",
+    "prepublishOnly": "npm run build && npm run lint"
+  },
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "credentials": [
+      "dist/credentials/VeridionApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/Veridion/Veridion.node.js"
+    ]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "^0.23.0",
+    "@typescript-eslint/eslint-plugin": "^8.0.0",
+    "@typescript-eslint/parser": "^8.0.0",
+    "eslint": "^9.0.0",
+    "n8n-core": "2.16.1",
+    "n8n-workflow": "2.16.0",
+    "typescript": "^5.4.5"
+  },
+  "peerDependencies": {
+    "n8n-workflow": "2.16.0"
+  },
+  "files": [
+    "dist"
+  ]
+}

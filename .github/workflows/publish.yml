@@ -1,0 +1,73 @@
+name: Publish to npm
+
+# Triggers on every push to main (after PR merge).
+# Gate with a version bump — only publish when package.json version changes.
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  publish:
+    name: Build & Publish
+    runs-on: ubuntu-latest
+
+    # ── Permissions required for npm provenance ───────────────────────────
+    # Provenance links the published package to the exact commit and workflow
+    # run that produced it, making the package verifiable on npmjs.com.
+    permissions:
+      contents: read
+      # Required for OIDC-based Trusted Publishing (see Option B below)
+      id-token: write
+
+    steps:
+      # ── 1. Checkout ───────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # ── 2. Setup Node with npm registry auth ──────────────────────────
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: '24'
+          registry-url: 'https://registry.npmjs.org'
+          package-manager-cache: false
+
+      # ── 3. Install dependencies ───────────────────────────────────────
+      - name: Install dependencies
+        run: npm ci
+
+      # ── 4. Lint ───────────────────────────────────────────────────────
+      - name: Lint
+        run: npm run lint
+
+      # ── 5. Build ──────────────────────────────────────────────────────
+      - name: Build
+        run: npm run build
+
+      # ── 6. Skip publish if this exact version is already on npm ──────
+      - name: Check npm for existing version
+        id: package-check
+        run: |
+          PKG_NAME=$(node -p "require('./package.json').name")
+          PKG_VERSION=$(node -p "require('./package.json').version")
+          if npm view "${PKG_NAME}@${PKG_VERSION}" version >/dev/null 2>&1; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Version ${PKG_NAME}@${PKG_VERSION} already exists on npm. Skipping publish."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── 7. Publish ────────────────────────────────────────────────────
+      # --provenance attaches a signed SLSA provenance attestation to the
+      # package so consumers can verify it was built by this workflow.
+      #
+      # Trusted Publishing (no long-lived secret needed):
+      #   1. On npmjs.com go to your package → Settings → Trusted Publishers.
+      #   2. Add an entry for GitHub Actions with:
+      #      owner=veridion, repo=n8n-nodes-veridion, workflow=publish.yml
+      #   3. npm exchanges the workflow's OIDC token for a short-lived
+      #      publish token automatically during `npm publish`.
+      - name: Publish to npm
+        if: steps.package-check.outputs.exists != 'true'
+        run: npm publish --provenance --access public
