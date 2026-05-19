@@ -65,7 +65,7 @@ jobs:
       # Trusted Publishing (no long-lived secret needed):
       #   1. On npmjs.com go to your package → Settings → Trusted Publishers.
       #   2. Add an entry for GitHub Actions with:
-      #      owner=veridion, repo=n8n-nodes-veridion, workflow=publish.yml
+      #      owner=cosmin-veridion, repo=n8n-nodes-veridion, workflow=publish.yml
       #   3. npm exchanges the workflow's OIDC token for a short-lived
       #      publish token automatically during `npm publish`.
       - name: Publish to npm

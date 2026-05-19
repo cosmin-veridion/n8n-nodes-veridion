@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-veridion",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community node for Veridion company enrich, company search, and supplier search",
   "keywords": [
     "n8n-community-node-package",
@@ -11,14 +11,14 @@
     "b2b"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/veridion/n8n-nodes-veridion",
+  "homepage": "https://github.com/cosmin-veridion/n8n-nodes-veridion",
   "author": {
     "name": "Veridion",
     "email": "support@veridion.com"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/veridion/n8n-nodes-veridion.git"
+    "url": "https://github.com/cosmin-veridion/n8n-nodes-veridion.git"
   },
   "main": "index.js",
   "scripts": {
