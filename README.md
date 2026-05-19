@@ -133,7 +133,7 @@ The full Veridion company JSON object is passed through as the node output. Exam
 ## Development
 
 ```bash
-git clone https://github.com/veridion/n8n-nodes-veridion.git
+git clone https://github.com/cosmin-veridion/n8n-nodes-veridion.git
 cd n8n-nodes-veridion
 npm install
 npm run build   # compile TypeScript → dist/

@@ -20,7 +20,6 @@
     "type": "git",
     "url": "git+https://github.com/cosmin-veridion/n8n-nodes-veridion.git"
   },
-  "main": "index.js",
   "scripts": {
     "build": "tsc -p tsconfig.build.json && node scripts/copy-icons.js",
     "dev": "tsc -p tsconfig.build.json --watch",
