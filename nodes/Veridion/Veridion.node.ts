@@ -53,6 +53,7 @@ export class Veridion implements INodeType {
 		version: 1,
 		subtitle: '={{$parameter["operation"]}}',
 		description: 'Match and enrich company data using the Veridion API',
+		usableAsTool: true,
 		defaults: {
 			name: 'Veridion',
 		},
