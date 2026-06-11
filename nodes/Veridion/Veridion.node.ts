@@ -565,9 +565,12 @@ export class Veridion implements INodeType {
 		operation: string,
 	): Promise<INodeExecutionData[]> {
 		const pageSize = ctx.getNodeParameter('pageSize', itemIndex, 10) as number;
-		const paginationToken = (
-			ctx.getNodeParameter('paginationToken', itemIndex, '') as string
-		).trim();
+		const paginationToken = Veridion.getOptionalPaginationToken(
+			ctx.getNodeParameter('paginationToken', itemIndex, null) as
+				| string
+				| null
+				| undefined,
+		);
 		const outputMode = ctx.getNodeParameter(
 			'searchOutputMode',
 			itemIndex,
@@ -981,6 +984,26 @@ export class Veridion implements INodeType {
 		}
 
 		return Veridion.parseCommaSeparated(input);
+	}
+
+	private static getOptionalPaginationToken(
+		input: string | null | undefined,
+	): string | null {
+		if (input === null || input === undefined) {
+			return null;
+		}
+
+		const normalizedToken = input.trim();
+		if (normalizedToken === '') {
+			return null;
+		}
+
+		const lowercaseToken = normalizedToken.toLowerCase();
+		if (lowercaseToken === 'undefined' || lowercaseToken === 'null') {
+			return null;
+		}
+
+		return normalizedToken;
 	}
 
 	private static getOptionalNumberParameter(
